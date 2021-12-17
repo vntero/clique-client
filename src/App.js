@@ -13,12 +13,20 @@ import GroupAdd from "./components/GroupAdd";
 import GroupList from "./components/GroupList";
 import GroupDetail from "./components/GroupDetail";
 import GroupEdit from "./components/GroupEdit";
+import Profile from "./components/Profile";
+import ProfileEdit from "./components/ProfileEdit";
+import EventList from "./components/EventList";
+import EventAdd from "./components/EventAdd";
+import EventDetail from "./components/EventDetail";
+import EventEdit from "./components/EventEdit";
+import HomePage from "./components/HomePage";
+import Loading from "./components/Loading";
+
 
 function App() {
 
   const [groups, setGroups] = useState([])
-  //SIGN IN has to be handle in app.js because it will be needed globally
-  //FIRST THING we'll do is to create a state to STORE THE LOGGED IN USER information
+  const [events, setEvents] = useState([])
   const {user, setUser} = useContext(UserContext)
   const [myError, setError] = useState(null)
   const [fetchingUser, setFetchingUser] = useState(true)
@@ -26,8 +34,10 @@ function App() {
   // This hook is for us to redirect users to different urls
   let navigate = useNavigate()
 
-  // This runs only --ONCE-- when the component is mounted
-  useEffect(() => {
+// --------------------------- GROUPS -------------------------------
+
+// This runs only --ONCE-- when the component is mounted
+useEffect(() => {
 
     const getData = async () => {
         let response  = await axios.get(`${API_URL}/groups`,{withCredentials: true})
@@ -52,7 +62,7 @@ function App() {
 
 }, [])
 
-// Runs everytime 'todos' gets updates - a conditional did update
+// Runs everytime 'groups' gets updates - a conditional did update
 useEffect(() => {
   navigate('/')
 }, [groups, user])
@@ -106,7 +116,86 @@ let filteredGroups = groups.filter((elem) => {
   setGroups(filteredGroups)
 }
 
-  //creating a function to HANDLE sign in
+// ----------------------------- EVENTS ------------------------------
+// This runs only --ONCE-- when the component is mounted
+useEffect(() => {
+
+  const getData = async () => {
+      let response  = await axios.get(`${API_URL}/events`,{withCredentials: true})
+      setEvents(response.data)
+
+      // -----------------------------------------------
+      // we make the user requst here to know if the user is logged in or not
+      try {
+        let userResponse = await axios.get(`${API_URL}/user`,{withCredentials: true})
+        setFetchingUser(false)
+        setUser(userResponse.data)
+      }
+      catch(err){
+        // the request will fail if the user is not logged in 
+        setFetchingUser(false)
+      }
+      // -----------------------------------------------
+
+  }
+
+  getData()
+
+}, [])
+
+// Runs everytime 'events' gets updates - a conditional did update
+useEffect(() => {
+navigate('/')
+}, [events, user])
+
+const handleEventSubmit = async (event) => {
+event.preventDefault()
+//first upload the image to cloudinary
+
+let newEvent = {
+  name: event.target.name.value,
+  description: event.target.description.value
+}
+// Pass an object as a 2nd param in POST requests
+let response = await axios.post(`${API_URL}/create-event`, newEvent, {withCredentials: true})
+setEvents([response.data, ...events])
+}
+
+const handleEventEdit = async (event, id) => {
+event.preventDefault()
+let editedEvent = {
+  name: event.target.name.value,
+  description: event.target.description.value
+}
+// Pass an object as a 2nd param in POST requests
+let response = await axios.patch(`${API_URL}/events/${id}`, editedEvent, {withCredentials: true})
+// Update our state 'todos' with the edited todo so that the user see the upadted info without refrshing the page
+
+let updatedEvents = events.map((elem) => {
+    if (elem._id === id) {
+        elem.name = response.data.name
+        elem.description = response.data.description
+    }
+    return elem
+})
+
+setEvents(updatedEvents)
+
+}
+
+const handleEventDelete = async (id) => {
+// make a request to the server to delete it from the database
+await axios.delete(`${API_URL}/events/${id}`)
+
+// Update your state 'todos' and remove the todo that was deleted
+let filteredEvents = events.filter((elem) => {
+  return elem._id !== id
+})
+
+setEvents(filteredEvents)
+}
+
+// ------------------------ user authentication ---------------------
   const handleSignIn = async (event) => {
     event.preventDefault()
     try {
@@ -130,21 +219,31 @@ let filteredGroups = groups.filter((elem) => {
     setUser(null)
 }
 
-// // Wait for the '/api/user' request to finish so that we know if the user is loggedin or not
-// if (fetchingUser) {
-//   return <p>Loading user info. . . </p>
-// }
+// Wait for the '/api/user' request to finish so that we know if the user is loggedin or not
+if (fetchingUser) {
+  return <Loading/>
+}
 
   return (
     <div>
       <Navbar onLogout={handleLogout}/>
+      
       <Routes>
-        <Route path="/" element={<GroupList groups={groups} /> } />
+        <Route path="/" element={<HomePage/> } />
+        <Route path="/groups" element={<GroupList groups={groups} /> } />
         <Route path="/create-group" element={<GroupAdd btnSubmit={handleSubmit} /> } />
         <Route path="/group/:groupId" element={<GroupDetail user={user} btnDelete={handleDelete} />} />
         <Route path="/group/:groupId/edit" element={<GroupEdit btnEdit={handleEdit}/>} />
-        <Route  path="/signin" element={<SignIn myError={myError} onSignIn={handleSignIn}/>}/>
-        <Route  path="/signup" element={<SignUp />}/> 
+
+        <Route path="/events" element={<EventList events={events} /> } />
+        <Route path="/create-event" element={<EventAdd btnSubmit={handleEventSubmit} /> } />
+        <Route path="/event/:eventId" element={<EventDetail user={user} btnDelete={handleEventDelete} />} />
+        <Route path="/event/:eventId/edit" element={<EventEdit btnEdit={handleEventEdit}/>} />
+
+        <Route path="/signin" element={<SignIn myError={myError} onSignIn={handleSignIn}/>}/>
+        <Route path="/signup" element={<SignUp />}/>
+        <Route path="/profile" element={<Profile user={user} />} />
+        <Route path="/profile/:userId/edit" element={<ProfileEdit btnEdit={handleEdit}/>} />
       </Routes>
       <Footer/>
     </div>

@@ -22,7 +22,7 @@ function GroupAdd(props){
 			<input  name="description"  type="text"  placeholder="Enter desc"/>
 			{/* <input  type="file"  name="myImage"  accept="image/png, image/jpg"  /> */}
 
-			<Button  type="submit"  >Submit</Button>
+			<Button  type="submit">Submit</Button>
 		</form>
 	)
 }

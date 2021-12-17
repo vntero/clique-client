@@ -35,7 +35,7 @@ function GroupEdit(props) {
 
                 <input defaultValue={groupDetail.name} name="name"  type="text"  placeholder="Enter name"/>
                 <input defaultValue={groupDetail.description} name="description"  type="text"  placeholder="Enter desc"/>
-                <button  type="submit"  >Edit</button>
+                <button  type="submit">Edit</button>
 		    </form>
         </div>
     )

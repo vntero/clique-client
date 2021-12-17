@@ -62,6 +62,7 @@ function SignIn(props) {
               error={props.myError ? true: false}
             />
             <Button
+              style={{ background: '#5F939A'}}
               type="submit"
               fullWidth
               variant="contained"
@@ -72,7 +73,7 @@ function SignIn(props) {
             <Grid container>
               <Grid item>
                 <Link to="/signup" >
-                  {"Don't have an account? Sign Up"}
+                  {"Don't have an account? Register"}
                 </Link>
               </Grid>
             </Grid>

@@ -21,7 +21,7 @@ function SignUp(props) {
   const handleSignUp = async (event) => {
     event.preventDefault()
     let newUser = {
-      username: event.target.username.value,
+      name: event.target.name.value,
       email: event.target.email.value,
       password: event.target.password.value
     }
@@ -45,16 +45,16 @@ function SignUp(props) {
           }}
         >
           <Typography component="h1" variant="h5">
-            Sign Up
+            Register
           </Typography>
           <Box component="form" onSubmit={handleSignUp} noValidate sx={{ mt: 1 }}>
             <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="username"
-                label="Username"
-                name="username"
+                id="name"
+                label="Name"
+                name="name"
                 autoFocus
             />
             <TextField
@@ -74,9 +74,17 @@ function SignUp(props) {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
+            />
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="location"
+                label="Where are you based?"
+                name="location"
             />
             <Button
+              style={{ background: '#5F939A'}}
               type="submit"
               fullWidth
               variant="contained"

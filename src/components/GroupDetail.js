@@ -3,6 +3,8 @@ import {useParams, Link, Navigate} from 'react-router-dom'
 import {Spinner} from 'react-bootstrap'
 import axios from 'axios'
 import {API_URL} from '../config'
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 function GroupDetail(props) {
     // We get this 'todoId' from the <Route path="/todo/:todoId "> we defined in App.js
@@ -29,19 +31,18 @@ function GroupDetail(props) {
         return <Spinner animation="grow" variant="dark" />
     }
 
-    const {btnDelete} = props
-
     return (
-        <div>
-            <h2>Group Detail Component</h2>
-            <h4>Name: {groupDetail.name}</h4>
-            <h4>Desc: {groupDetail.description}</h4>
-            <img src={groupDetail.image}/>
-            <button>
-                <Link to={`/groups/${groupDetail._id}/edit`} >Edit</Link>
-            </button>
-            <button onClick={() => { btnDelete(groupDetail._id)  }  } >Delete</button>
-        </div>
+        <Box sx={{ width: '100%'}} padding='30px'>
+            <Typography variant="h2" component="div" gutterBottom>
+                <i>{groupDetail.name}</i>
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+                {groupDetail.description}
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+                Members: 54
+            </Typography>
+        </Box>
     )
 }
 
