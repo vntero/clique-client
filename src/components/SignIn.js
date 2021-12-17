@@ -36,7 +36,7 @@ function SignIn(props) {
           }}
         >
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign in to your account
           </Typography>
           <Box component="form" onSubmit={onSignIn} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -62,7 +62,7 @@ function SignIn(props) {
               error={props.myError ? true: false}
             />
             <Button
-              style={{ background: 'white', color: 'black'}}
+              style={{ background: '#F5EEDC', color: 'black'}}
               type="submit"
               fullWidth
               variant="contained"

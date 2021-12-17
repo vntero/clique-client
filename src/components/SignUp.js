@@ -77,13 +77,13 @@ function SignUp(props) {
             />
 
             <Button
-              style={{ background: 'white', color: 'black'}}
+              style={{ background: '#F5EEDC', color: 'black'}}
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Register
             </Button>
             <Grid container>
               <Grid item>
