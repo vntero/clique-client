@@ -1,10 +1,11 @@
 import {Button} from  'react-bootstrap'
 import {useContext} from 'react';
 import {UserContext} from '../context/app.context'
+import EventDetail from './EventDetail';
 
 function EventAdd(props){
 
-	const {name} = useContext(UserContext)
+    const {events} = props
 
 	// Props will look like
 	/*
@@ -17,9 +18,11 @@ function EventAdd(props){
 	const {btnSubmit} = props
 	return (
 		<form onSubmit={btnSubmit}>
-			<p>Event Information {name} </p>
-			<input  name="name"  type="text"  placeholder="Enter name"/>
-			<input  name="description"  type="text"  placeholder="Enter desc"/>
+			<p>Event Information {EventDetail} </p>
+			<input  name="organiser"  type="text"  placeholder="You"/>
+            <input  name="title"  type="text"  placeholder="Title"/>
+			<input  name="location"  type="text"  placeholder="Location"/>
+            <input  name="description"  type="text"  placeholder="Description"/>
 
 			<Button  type="submit">Submit</Button>
 		</form>

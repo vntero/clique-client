@@ -62,7 +62,7 @@ function SignIn(props) {
               error={props.myError ? true: false}
             />
             <Button
-              style={{ background: '#5F939A'}}
+              style={{ background: 'white', color: 'black'}}
               type="submit"
               fullWidth
               variant="contained"

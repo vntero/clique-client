@@ -22,7 +22,7 @@ function GroupList(props) {
         <Typography variant="h6" gutterBottom>
             Groups in your area. Select one of them to see what is happening around you:
         </Typography>
-        <Grid container display='flex' spacing={2} flexDirection="row" justifyContent="space-around">
+        <Grid container display='flex' spacing={2} direction="row" justifyContent="space-around">
             {
                 groups.map((elem) => {
                     return (

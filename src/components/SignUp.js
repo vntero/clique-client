@@ -75,16 +75,9 @@ function SignUp(props) {
               type="password"
               id="password"
             />
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="location"
-                label="Where are you based?"
-                name="location"
-            />
+
             <Button
-              style={{ background: '#5F939A'}}
+              style={{ background: 'white', color: 'black'}}
               type="submit"
               fullWidth
               variant="contained"

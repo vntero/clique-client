@@ -21,7 +21,7 @@ function HomePage() {
         </Typography>
     </Box>
 
-    <Grid container display='flex' spacing={2} flexDirection="row" justifyContent="space-around">    
+    <Grid container display='flex' spacing={2} direction="row" justifyContent="space-around">    
         <Grid item xs={12} sm={6} md={3}>
             <Card  sx={{ minWidth: 275 }}>
                 <CardContent>

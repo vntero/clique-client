@@ -37,6 +37,7 @@ function App() {
 // --------------------------- GROUPS -------------------------------
 
 // This runs only --ONCE-- when the component is mounted
+/*
 useEffect(() => {
 
     const getData = async () => {
@@ -61,11 +62,13 @@ useEffect(() => {
     getData()
 
 }, [])
-
+*/
 // Runs everytime 'groups' gets updates - a conditional did update
+/*
 useEffect(() => {
   navigate('/')
 }, [groups, user])
+*/
 
 const handleSubmit = async (event) => {
   event.preventDefault()
@@ -121,9 +124,20 @@ let filteredGroups = groups.filter((elem) => {
 useEffect(() => {
 
   const getData = async () => {
+    try {
       let response  = await axios.get(`${API_URL}/events`,{withCredentials: true})
       setEvents(response.data)
-
+    } catch(err) {
+      console.log(err)
+    }
+      
+    try {
+      let response  = await axios.get(`${API_URL}/groups`,{withCredentials: true})
+      setGroups(response.data)
+    } catch(err) {
+      console.log(err)
+    }
+      
       // -----------------------------------------------
       // we make the user requst here to know if the user is logged in or not
       try {
@@ -144,55 +158,55 @@ useEffect(() => {
 }, [])
 
 // Runs everytime 'events' gets updates - a conditional did update
-useEffect(() => {
+/*useEffect(() => {
 navigate('/')
 }, [events, user])
-
+*/
 const handleEventSubmit = async (event) => {
-event.preventDefault()
-//first upload the image to cloudinary
+  event.preventDefault()
+  //first upload the image to cloudinary
 
-let newEvent = {
-  name: event.target.name.value,
-  description: event.target.description.value
-}
-// Pass an object as a 2nd param in POST requests
-let response = await axios.post(`${API_URL}/create-event`, newEvent, {withCredentials: true})
-setEvents([response.data, ...events])
+  const data = new FormData(event.currentTarget);
+  const formData = Object.fromEntries(data.entries());
+
+  // Pass an object as a 2nd param in POST requests
+  let response = await axios.post(`${API_URL}/create-event`, {...formData}, {withCredentials: true})
+  setEvents([response.data, ...events])
+  navigate('/events')
 }
 
 const handleEventEdit = async (event, id) => {
-event.preventDefault()
-let editedEvent = {
-  name: event.target.name.value,
-  description: event.target.description.value
-}
-// Pass an object as a 2nd param in POST requests
-let response = await axios.patch(`${API_URL}/events/${id}`, editedEvent, {withCredentials: true})
-// Update our state 'todos' with the edited todo so that the user see the upadted info without refrshing the page
+  event.preventDefault()
+  const data = new FormData(event.currentTarget);
+  const formData = Object.fromEntries(data.entries());
 
-let updatedEvents = events.map((elem) => {
-    if (elem._id === id) {
-        elem.name = response.data.name
-        elem.description = response.data.description
-    }
-    return elem
-})
+  // Pass an object as a 2nd param in POST requests
+  let response = await axios.patch(`${API_URL}/events/${id}`, formData, {withCredentials: true})
+  // Update our state 'todos' with the edited todo so that the user see the upadted info without refrshing the page
 
-setEvents(updatedEvents)
+  let updatedEvents = events.map((elem) => {
+      if (elem._id === id) {
+          elem.title = response.data.title
+          elem.description = response.data.description
+      }
+      return elem
+  })
 
+  setEvents(updatedEvents)
+  navigate('/events')
 }
 
 const handleEventDelete = async (id) => {
-// make a request to the server to delete it from the database
-await axios.delete(`${API_URL}/events/${id}`)
+  // make a request to the server to delete it from the database
+  await axios.delete(`${API_URL}/events/${id}`)
 
-// Update your state 'todos' and remove the todo that was deleted
-let filteredEvents = events.filter((elem) => {
-  return elem._id !== id
-})
+  // Update your state 'todos' and remove the todo that was deleted
+  let filteredEvents = events.filter((elem) => {
+    return elem._id !== id
+  })
 
-setEvents(filteredEvents)
+  setEvents(filteredEvents)
+  navigate('/events')
 }
 
 // ------------------------ user authentication ---------------------
@@ -217,19 +231,18 @@ setEvents(filteredEvents)
   const handleLogout = async () => {
     await axios.post(`${API_URL}/logout`, {}, {withCredentials: true})
     setUser(null)
-}
+  }
 
-// Wait for the '/api/user' request to finish so that we know if the user is loggedin or not
-if (fetchingUser) {
-  return <Loading/>
-}
+  // Wait for the '/api/user' request to finish so that we know if the user is loggedin or not
+  if (fetchingUser) {
+    return <Loading/>
+  }
 
   return (
     <div>
       <Navbar onLogout={handleLogout}/>
       
-      <Routes>
-        <Route path="/" element={<HomePage/> } />
+      <Routes>        
         <Route path="/groups" element={<GroupList groups={groups} /> } />
         <Route path="/create-group" element={<GroupAdd btnSubmit={handleSubmit} /> } />
         <Route path="/group/:groupId" element={<GroupDetail user={user} btnDelete={handleDelete} />} />
@@ -243,7 +256,8 @@ if (fetchingUser) {
         <Route path="/signin" element={<SignIn myError={myError} onSignIn={handleSignIn}/>}/>
         <Route path="/signup" element={<SignUp />}/>
         <Route path="/profile" element={<Profile user={user} />} />
-        <Route path="/profile/:userId/edit" element={<ProfileEdit btnEdit={handleEdit}/>} />
+        {/* <Route path="/profile/:userId/edit" element={<ProfileEdit btnEdit={handleEdit}/>} /> */}
+        <Route path="/" element={<HomePage/> } />
       </Routes>
       <Footer/>
     </div>
