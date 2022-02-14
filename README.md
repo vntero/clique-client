@@ -1,6 +1,8 @@
 # _clique_
 \'klik also 'klëk\: a narrow exclusive circle or group of persons. One held together by common interests, views, or purposes.
 
+klek.me is a possibility
+
 # Ironhack M3 Project
 The main purpose is to practice and consolidate what we studied in Module 3 with focus on React (Hooks, Router), CSS frameworks/libraries, NodeJS and Express.
 It will be a simple web app with 3 models and relationships, ability to CRUD, authentication and protected routes. 
