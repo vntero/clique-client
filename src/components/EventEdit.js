@@ -3,6 +3,10 @@ import {useParams} from 'react-router-dom'
 import {Spinner} from 'react-bootstrap'
 import axios from 'axios'
 import {API_URL} from '../config'
+import {Grid} from '@material-ui/core/'
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import Button from '@mui/material/Button';
 
 function EventEdit(props) {
     const {eventId} = useParams()
@@ -25,6 +29,9 @@ function EventEdit(props) {
 
     const {btnEdit} = props
     return (
+    <Box sx={{ width: '100%'}} padding='50px'>
+        <Grid container display='flex' justifyContent="space-around" alignItems="flex-end"> 
+            <Card padding="50px" sx={{ maxWidth: 345 }}>
         <div>
             <h3>Edit event</h3>
 
@@ -35,9 +42,12 @@ function EventEdit(props) {
 
                 <input defaultValue={eventDetail.title} name="title"  type="text"  placeholder="Enter a title"/>
                 <input defaultValue={eventDetail.description} name="description"  type="text"  placeholder="Enter description"/>
-                <button  type="submit"> Update </button>
+                <Button variant="text" size="small" type="submit"> Update </Button>
 		    </form>
         </div>
+        </Card>
+        </Grid>
+    </Box>
     )
 }
 

@@ -86,7 +86,7 @@ const Navbar = (props) => {
                 </MenuItem>
 
                 <MenuItem>
-                <Link style={{textDecoration: 'none', color: 'black'}} to="/events"><Typography textAlign="center">Events</Typography></Link>
+                  <Link style={{textDecoration: 'none', color: 'black'}} to="/events"><Typography textAlign="center">Events</Typography></Link>
                 </MenuItem>
               
             </Menu>

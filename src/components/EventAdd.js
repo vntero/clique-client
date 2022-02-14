@@ -2,6 +2,7 @@ import {Button} from  'react-bootstrap'
 import {useContext} from 'react';
 import {UserContext} from '../context/app.context'
 import EventDetail from './EventDetail';
+import TextField from '@mui/material/TextField';
 
 function EventAdd(props){
 
@@ -17,8 +18,9 @@ function EventAdd(props){
 
 	const {btnSubmit} = props
 	return (
+		
 		<form onSubmit={btnSubmit}>
-			<p>Event Information {EventDetail} </p>
+			<p>Event Information</p>
 			<input  name="organiser"  type="text"  placeholder="You"/>
             <input  name="title"  type="text"  placeholder="Title"/>
 			<input  name="location"  type="text"  placeholder="Location"/>
